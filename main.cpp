@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
 #include <arpa/inet.h>
 #include "sum.h"
 
@@ -15,7 +17,8 @@ uint32_t readfile(char* filename){
 	fd = fopen(filename, "r");
 	fread(buf, sizeof(uint32_t), 1, fd);
 	num = (uint32_t)atoi(buf);
-	return num;
+
+	return ntohl(num);
 }
 
 int main(int argc, char* argv[]){
@@ -26,7 +29,7 @@ int main(int argc, char* argv[]){
 	}
 	uint32_t a, b;
 	uint32_t result;
-	uint8_t oveflow;
+	uint8_t overflow;
 	FILE * fd;
 
 	a = readfile(argv[1]);
@@ -34,10 +37,8 @@ int main(int argc, char* argv[]){
 	
 	result = sum(a, b, &overflow);
 
-	if(overflow){
-		uint64_t result2 = 0x100000000 + result;
-		printf("result(in hex) : %X\n", result2);
-	}
+	if(overflow)
+		printf("result(in hex) : 1%08X\n", result);
 	else
 		printf("result(in hex) : %08X\n", result);
 	
