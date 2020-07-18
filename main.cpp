@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
 	}
 	uint32_t a, b;
 	uint32_t result;
-	char oveflow;
+	uint8_t oveflow;
 	FILE * fd;
 
 	a = readfile(argv[1]);
