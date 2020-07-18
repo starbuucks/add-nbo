@@ -16,7 +16,7 @@ uint32_t readfile(char* filename){
 
 	fd = fopen(filename, "r");
 	fread(buf, sizeof(uint32_t), 1, fd);
-	num = (uint32_t)atoi(buf);
+	num = *(uint32_t*)buf;
 
 	return ntohl(num);
 }
@@ -34,12 +34,14 @@ int main(int argc, char* argv[]){
 
 	a = readfile(argv[1]);
 	b = readfile(argv[2]);
-	
+
+	printf("%08X + %08X = ", a, b);
+
 	result = sum(a, b, &overflow);
 
 	if(overflow)
-		printf("result(in hex) : 1%08X\n", result);
-	else
-		printf("result(in hex) : %08X\n", result);
+		printf("1");
+	
+	printf("%08X\n", result);
 	
 }
